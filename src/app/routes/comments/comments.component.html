@@ -1,0 +1,94 @@
+<section id="container">
+    <div *ngFor="let user of objects.comments" class="all-comments-container">
+        <div class="comment">
+            <div class="comment-votes">
+                <button (click)="incrementScore(user, objects.comments)" id="increment">+</button>
+                <span>{{user.score}}</span>
+                <button (click)="decrementScore(user, objects.comments)" id="decrement">-</button>
+            </div>
+            <div class="comments-container">
+                <div class="comment-header">
+                    <div class="user">
+                        <img class="user-image" src={{user.user.image.png}}>
+                        <p><strong>{{user.user.username}}</strong></p>
+                        <p>{{user.createdAt}}</p>
+                    </div>
+                    <div class="buttons-wrapper">
+                        <div>
+                            <img src="../assets/images/icon-reply.svg">
+                            <button (click)="createMessageSection(user)" class="reply">Reply</button>
+                        </div>
+                        <div *ngIf="user.user.username=='juliusomo'">
+                            <img src="../assets/images/icon-delete.svg">
+                            <button (click)="deleteMessage(user, objects.comments)" class="reply">Delete</button>
+                        </div>
+                        <div *ngIf="user.user.username=='juliusomo'">
+                            <img src="../assets/images/icon-edit.svg">
+                            <button (click)="editMessage(user)" class="reply">Edit</button>
+                        </div>
+                    </div>
+                </div>
+                <p class="comment-text">{{user.content}}
+                </p>
+            </div>
+        </div>
+        <div *ngIf="user.active" class="comment textarea-section">
+            <img class="user-image" src="../assets/images/avatars/image-juliusomo.png">
+            <textarea [(ngModel)]="replyTextValue"></textarea>
+            <button (click)="addReply(user, objects.comments)">REPLY</button>
+        </div>
+        <div *ngIf="user.activeEdit" class="comment textarea-section">
+            <img class="user-image" src="../assets/images/avatars/image-juliusomo.png">
+            <textarea [(ngModel)]="editTextValue"></textarea>
+            <button (click)="editText(user, objects.comments)">Edit</button>
+        </div>
+        <div *ngFor="let comment of user.replies">
+            <div class="comment comment-reply">
+                <div class="comment-votes">
+                    <button (click)="incrementScore(comment, user.replies)" id="increment">+</button>
+                    <span>{{comment.score}}</span>
+                    <button (click)="decrementScore(comment, user.replies)" id="decrement">-</button>
+                </div>
+                <div class="comments-container">
+                    <div class="comment-header">
+                        <div class="user">
+                            <img class="user-image" src={{comment.user.image.png}}>
+                            <p><strong>{{comment.user.username}}</strong></p>
+                            <p>{{comment.createdAt}}</p>
+                        </div>
+                        <div class="buttons-wrapper">
+                            <div *ngIf="comment.user.username!='juliusomo'">
+                                <img src="../assets/images/icon-reply.svg">
+                                <button (click)="createMessageSection(comment)" class="reply">Reply</button>
+                            </div>
+                            <div *ngIf="comment.user.username=='juliusomo'">
+                                <img src="../assets/images/icon-delete.svg">
+                                <button (click)="deleteMessage(comment, user.replies)" class="reply">Delete</button>
+                            </div>
+                            <div *ngIf="comment.user.username=='juliusomo'">
+                                <img src="../assets/images/icon-edit.svg">
+                                <button (click)="editMessage(comment)" class="reply">Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="comment-text">{{comment.content}}</p>
+                </div>
+            </div>
+            <div *ngIf="comment.active" class="comment comment-reply textarea-section">
+                <img class="user-image" src="../assets/images/avatars/image-juliusomo.png">
+                <textarea [(ngModel)]="replyTextValue"></textarea>
+                <button (click)="addReply(user, user.replies)">REPLY</button>
+            </div>
+            <div *ngIf="comment.activeEdit" class="comment comment-reply textarea-section">
+                <img class="user-image" src="../assets/images/avatars/image-juliusomo.png">
+                <textarea [(ngModel)]="editTextValue"></textarea>
+                <button (click)="editText(comment, user.replies)">Editi</button>
+            </div>
+        </div>
+    </div>
+    <div class="new-comment-div">
+        <img class="user-image" src="../assets/images/avatars/image-juliusomo.png">
+        <textarea [(ngModel)]="textValue"></textarea>
+        <button (click)="addToMainComments(objects.comments)">SEND</button>
+    </div>
+</section>
